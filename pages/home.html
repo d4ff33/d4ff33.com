@@ -14,6 +14,7 @@
     padding: 0;
     margin: 0;
     scrollbar-width: none;
+    list-style: none;
   }
 
   #home {
@@ -59,6 +60,20 @@
     padding: 10px;
     font-size: 1.5vw;
   }
+  #socials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  #socials li {
+    margin: 10px;
+  }
+
+  #socials li img {
+    filter: invert(87%) sepia(40%) saturate(780%) hue-rotate(18deg)
+      brightness(105%) contrast(101%);
+  }
 </style>
 
 <div id="home">
@@ -78,5 +93,22 @@
       skills. Don’t forget to follow me on my socials below. Thanks for
       visiting, and have a wonderful day! 👽
     </p>
+    <ul id="socials">
+      <li>
+        <a href="https://twitter.com/d4ff33" target="_blank"
+          ><img src="../assets/x.svg" alt="d4ff33"
+        /></a>
+      </li>
+      <li>
+        <a href="https://www.instagram.com/d4ff33/" target="_blank"
+          ><img src="../assets/instagram.svg" alt="d4ff33"
+        /></a>
+      </li>
+      <li>
+        <a href="https://github.com/d4ff33" target="_blank"
+          ><img src="../assets/github.svg" alt="d4ff33"
+        /></a>
+      </li>
+    </ul>
   </div>
 </div>
