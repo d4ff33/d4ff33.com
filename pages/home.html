@@ -1,0 +1,82 @@
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+
+<style>
+  * {
+    color: #d4ff33;
+    font-family: "Goldman", sans-serif;
+    padding: 0;
+    margin: 0;
+    scrollbar-width: none;
+  }
+
+  #home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+  }
+
+  #header h1 {
+    margin: 20px;
+    font-size: 5vw;
+  }
+
+  #logo {
+    width: 20vw;
+    animation: daffy-wiggle 0.8s infinite;
+  }
+  @keyframes daffy-wiggle {
+    from,
+    to {
+      transform: scale(1, 1);
+    }
+    25% {
+      transform: scale(0.9, 1.1);
+    }
+    50% {
+      transform: scale(1.1, 0.9);
+    }
+    75% {
+      transform: scale(0.95, 1.05);
+    }
+  }
+
+  #text {
+    text-align: center;
+    width: 50%;
+  }
+
+  #text p {
+    padding: 10px;
+    font-size: 1.5vw;
+  }
+</style>
+
+<div id="home">
+  <div id="header">
+    <h1>Welcome Earthling! 🌎</h1>
+  </div>
+  <img src="../assets/daffy.png" id="logo" alt="d4ff33" />
+  <div id="text">
+    <p>
+      Hi, I’m Daffy—an amateur web developer and artist from outer space. This
+      site showcases my creative projects, blending art and web development as I
+      continue to grow and improve. It’s not just a portfolio but a work in
+      progress, much like myself!
+    </p>
+    <p>
+      Feel free to explore my art, experiments, and updates as I refine my
+      skills. Don’t forget to follow me on my socials below. Thanks for
+      visiting, and have a wonderful day! 👽
+    </p>
+  </div>
+</div>

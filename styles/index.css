@@ -9,6 +9,7 @@
 }
 
 body {
+  background-color: black;
   background-image: url("../assets/background.jpg");
   backdrop-filter: blur(3px) brightness(0.5);
   background-size: cover;
@@ -28,7 +29,7 @@ body {
   height: 90vh;
   aspect-ratio: 4/3;
   position: relative;
-  border-radius: 30px;
+  border-radius: 60px;
   background-clip: padding-box;
   animation: enter 1s linear;
 }
@@ -68,20 +69,16 @@ body {
 
 #header img {
   transition: 0.5s ease-out;
-  background-color: #d4ff33;
-  border-radius: 50%;
-  width: 100px;
+  width: 40px;
   position: absolute;
-  box-shadow: #5e33ff 0px 0px 10px 3px;
-  top: -15px;
-  left: -15px;
+  top: -10px;
   z-index: 1;
 }
 
 #header img:hover {
   cursor: help;
-  box-shadow: #d4ff33 0px 0px 10px 5px;
   transition: 0.5s ease-in;
+  filter: drop-shadow(0px 0px 5px #5e33ff);
 }
 
 .logo-shake {
@@ -160,7 +157,7 @@ body {
 }
 
 #navbar li {
-  margin: 0 10px;
+  margin: 0 25px;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -192,18 +189,11 @@ body {
   width: 100%;
   border-radius: 30px;
   border: #5e33ff ridge 5px;
+  padding: 15px;
 }
 
-#container-left {
-  width: 25%;
-  background-color: rgba(0, 0, 0, 0.25);
-  padding: 15px;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-}
-
-#container-right {
-  padding: 15px;
+#content embed {
+  width: 100%;
 }
 
 #footer {
