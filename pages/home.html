@@ -70,9 +70,14 @@
     margin: 10px;
   }
 
-  #socials li img {
-    filter: invert(87%) sepia(40%) saturate(780%) hue-rotate(18deg)
-      brightness(105%) contrast(101%);
+  .social_icon {
+    transition: all 0.2s ease-in-out;
+    filter: brightness(0) saturate(100%) invert(41%) sepia(97%) saturate(7455%)
+      hue-rotate(251deg) brightness(100%) contrast(106%);
+  }
+
+  .social_icon:hover {
+    transform: scale(1.2);
   }
 </style>
 
@@ -96,17 +101,17 @@
     <ul id="socials">
       <li>
         <a href="https://twitter.com/d4ff33" target="_blank"
-          ><img src="../assets/x.svg" alt="d4ff33"
+          ><img class="social_icon" src="../assets/x.svg" alt="d4ff33"
         /></a>
       </li>
       <li>
         <a href="https://www.instagram.com/d4ff33/" target="_blank"
-          ><img src="../assets/instagram.svg" alt="d4ff33"
+          ><img class="social_icon" src="../assets/instagram.svg" alt="d4ff33"
         /></a>
       </li>
       <li>
         <a href="https://github.com/d4ff33" target="_blank"
-          ><img src="../assets/github.svg" alt="d4ff33"
+          ><img class="social_icon" src="../assets/github.svg" alt="d4ff33"
         /></a>
       </li>
     </ul>
