@@ -1,92 +1,9 @@
-<head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap"
-    rel="stylesheet"
-  />
-</head>
-
-<style>
-  * {
-    color: #d4ff33;
-    font-family: "Goldman", sans-serif;
-    padding: 0;
-    margin: 0;
-    scrollbar-width: none;
-    list-style: none;
-  }
-
-  #home {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-  }
-
-  #header h1 {
-    margin: 20px;
-    font-size: 5vw;
-  }
-
-  #logo {
-    width: 20vw;
-    animation: daffy-wiggle 0.8s infinite;
-  }
-  @keyframes daffy-wiggle {
-    from,
-    to {
-      transform: scale(1, 1);
-    }
-    25% {
-      transform: scale(0.9, 1.1);
-    }
-    50% {
-      transform: scale(1.1, 0.9);
-    }
-    75% {
-      transform: scale(0.95, 1.05);
-    }
-  }
-
-  #text {
-    text-align: center;
-    width: 50%;
-  }
-
-  #text p {
-    padding: 10px;
-    font-size: 1.5vw;
-  }
-  #socials {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-  #socials li {
-    margin: 10px;
-  }
-
-  .social_icon {
-    transition: all 0.2s ease-in-out;
-    filter: brightness(0) saturate(100%) invert(41%) sepia(97%) saturate(7455%)
-      hue-rotate(251deg) brightness(100%) contrast(106%);
-  }
-
-  .social_icon:hover {
-    transform: scale(1.2);
-  }
-</style>
-
 <div id="home">
-  <div id="header">
+  <div id="home-header">
     <h1>Welcome Earthling! 🌎</h1>
   </div>
-  <img src="../assets/daffy.png" id="logo" alt="d4ff33" />
-  <div id="text">
+  <img src="../assets/daffy.png" id="home-daffy" alt="d4ff33" />
+  <div id="home-text">
     <p>
       Hi, I’m Daffy—an amateur web developer and artist from outer space. This
       site showcases my creative projects, blending art and web development as I
