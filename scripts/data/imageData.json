@@ -1,0 +1,32 @@
+{
+  "images": [
+    {
+      "src": "../assets/art/Screenshot 2025-01-13 184506.png",
+      "date": "2025-01-13",
+      "displayDate": "1/13/2025",
+      "caption": "Some figure drawings for today",
+      "category": "sketches"
+    },
+    {
+      "src": "../assets/art/Screenshot 2025-01-13 112809.png",
+      "date": "2025-01-12",
+      "displayDate": "1/12/2025",
+      "caption": "Messing around with color and drinking Jett-juice",
+      "category": "sketches"
+    },
+    {
+      "src": "../assets/art/Screenshot 2025-01-11 161502.png",
+      "date": "2025-01-11",
+      "displayDate": "1/11/2025",
+      "caption": "Left to right, SrJelly, Yobu, Jett, Vert, Daffy",
+      "category": "sketches"
+    },
+    {
+      "src": "../assets/art/Screenshot 2025-01-08 225159.png",
+      "date": "2025-01-08",
+      "displayDate": "1/08/2025",
+      "caption": "Random doodles of Daffy",
+      "category": "sketches"
+    }
+  ]
+}
