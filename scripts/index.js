@@ -128,6 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // Gallery
 const imageData = [
   {
+    src: "../assets/art/Screenshot 2025-01-13 184506.png",
+    date: "2025-01-13",
+    displayDate: "1/13/2025",
+    caption: "Some figure drawings for today",
+    category: "sketches",
+  },
+  {
     src: "../assets/art/Screenshot 2025-01-13 112809.png",
     date: "2025-01-12",
     displayDate: "1/12/2025",
