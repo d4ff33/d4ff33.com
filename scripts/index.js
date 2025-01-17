@@ -37,24 +37,29 @@ function setActiveLink(activeLink) {
   activeLink.classList.remove("inactiveNav");
 }
 
-// Cache Management
+// Cache Management with Version Control
 const CACHE_PREFIX = "daffy_page_";
-const CACHE_DURATION = 1 * 60 * 60 * 1000;
+const CACHE_VERSION = "0.5"; // Increment this when deploying new content
+const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 const GALLERY_CACHE_KEY = "daffy_gallery_data";
 const BOUNTIES_CACHE_KEY = "daffy_bounties_data";
 
+// Add version to cache keys
 function getCacheKey(pageName) {
-  return `${CACHE_PREFIX}${pageName}`;
+  return `${CACHE_PREFIX}${pageName}_v${CACHE_VERSION}`;
 }
 
+// Modified cache setter with version
 function setCachedContent(pageName, content) {
   const cacheItem = {
     content: content,
     timestamp: Date.now(),
+    version: CACHE_VERSION,
   };
   localStorage.setItem(getCacheKey(pageName), JSON.stringify(cacheItem));
 }
 
+// Modified cache getter with version check
 function getCachedContent(pageName) {
   const cached = localStorage.getItem(getCacheKey(pageName));
   if (!cached) return null;
@@ -62,7 +67,8 @@ function getCachedContent(pageName) {
   const cacheItem = JSON.parse(cached);
   const age = Date.now() - cacheItem.timestamp;
 
-  if (age > CACHE_DURATION) {
+  // Return null if cache is expired or version mismatch
+  if (age > CACHE_DURATION || cacheItem.version !== CACHE_VERSION) {
     localStorage.removeItem(getCacheKey(pageName));
     return null;
   }
@@ -204,22 +210,40 @@ document.addEventListener("DOMContentLoaded", () => {
   navigateToPage(initialPage, link, title);
 });
 
+// Modified gallery cache handling
 // Gallery
 async function initGallery() {
-  let imageData;
   const IMAGES_PER_PAGE = 18;
-  let currentPage = 1;
+  let imageData;
+  let currentPage = 1; // Moved to top level of initGallery
+  let currentImageIndex = 0;
+  let sortDirection = "desc";
+  let currentFilter = "all";
+  let filteredImages = [];
 
   try {
     const cachedGalleryData = localStorage.getItem(GALLERY_CACHE_KEY);
     if (cachedGalleryData) {
-      imageData = JSON.parse(cachedGalleryData).images;
-    } else {
+      const parsed = JSON.parse(cachedGalleryData);
+      if (parsed.version === CACHE_VERSION) {
+        imageData = parsed.images;
+      } else {
+        localStorage.removeItem(GALLERY_CACHE_KEY);
+      }
+    }
+
+    if (!imageData) {
       const response = await fetch("scripts/data/imageData.json");
       if (!response.ok) throw new Error("Failed to load image data");
       const data = await response.json();
       imageData = data.images;
-      localStorage.setItem(GALLERY_CACHE_KEY, JSON.stringify(data));
+      localStorage.setItem(
+        GALLERY_CACHE_KEY,
+        JSON.stringify({
+          images: data.images,
+          version: CACHE_VERSION,
+        })
+      );
     }
   } catch (error) {
     console.error("Error loading image data:", error);
@@ -241,11 +265,6 @@ async function initGallery() {
   const resultsCounter = document.querySelector("#results-counter");
 
   if (!imagesContainer || !lightbox) return;
-
-  let currentImageIndex = 0;
-  let sortDirection = "desc";
-  let currentFilter = "all";
-  let filteredImages = [...imageData];
 
   function createPaginationControls(totalPages) {
     const paginationContainer =
@@ -276,7 +295,6 @@ async function initGallery() {
       }`;
       pageButton.textContent = i;
 
-      // Only add click handler if it's not the current page
       if (i !== currentPage) {
         pageButton.onclick = () => goToPage(i);
       }
@@ -297,7 +315,6 @@ async function initGallery() {
     };
     paginationContainer.appendChild(nextButton);
 
-    // Append pagination controls after the images container
     if (!document.getElementById("pagination-controls")) {
       imagesContainer.parentNode.insertBefore(
         paginationContainer,
@@ -441,24 +458,38 @@ async function initGallery() {
   });
 
   // Initialize the gallery with all images
+  filteredImages = [...imageData]; // Initialize filteredImages
   filterImages("all");
 }
 
 // Initialize bounties after the content is loaded
 
+// Modified bounties cache handling
 async function initBounties() {
   let bountyData;
-
   try {
     const cachedBountyData = localStorage.getItem(BOUNTIES_CACHE_KEY);
     if (cachedBountyData) {
-      bountyData = JSON.parse(cachedBountyData).bounties;
-    } else {
+      const parsed = JSON.parse(cachedBountyData);
+      if (parsed.version === CACHE_VERSION) {
+        bountyData = parsed.bounties;
+      } else {
+        localStorage.removeItem(BOUNTIES_CACHE_KEY);
+      }
+    }
+
+    if (!bountyData) {
       const response = await fetch("scripts/data/bountyData.json");
       if (!response.ok) throw new Error("Failed to load bounty data");
       const data = await response.json();
       bountyData = data.bounties;
-      localStorage.setItem(BOUNTIES_CACHE_KEY, JSON.stringify(data));
+      localStorage.setItem(
+        BOUNTIES_CACHE_KEY,
+        JSON.stringify({
+          bounties: data.bounties,
+          version: CACHE_VERSION,
+        })
+      );
     }
   } catch (error) {
     console.error("Error loading bounty data:", error);
@@ -619,6 +650,28 @@ async function initBounties() {
   renderBounties();
 }
 
+// Function to clear outdated caches (can be called on page load)
+function clearOutdatedCaches() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (
+      key.startsWith(CACHE_PREFIX) ||
+      key === GALLERY_CACHE_KEY ||
+      key === BOUNTIES_CACHE_KEY
+    ) {
+      try {
+        const cached = JSON.parse(localStorage.getItem(key));
+        if (!cached.version || cached.version !== CACHE_VERSION) {
+          localStorage.removeItem(key);
+        }
+      } catch (e) {
+        // If there's any error parsing the cache, remove it
+        localStorage.removeItem(key);
+      }
+    }
+  }
+}
+
 // Cache clearing function for development
 function clearPageCache() {
   for (let i = 0; i < localStorage.length; i++) {
@@ -633,3 +686,5 @@ function clearPageCache() {
   }
   console.log("Page cache cleared");
 }
+
+document.addEventListener("DOMContentLoaded", clearOutdatedCaches);

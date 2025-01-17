@@ -26,9 +26,6 @@
 
 /* Base Layout */
 body {
-  background-color: black;
-  background-image: url("../assets/background.jpg");
-  backdrop-filter: blur(3px) brightness(0.5);
   background-size: cover;
   display: flex;
   flex-direction: column;

@@ -19,7 +19,6 @@
     <title>Daffy's Space - Home</title>
     <link rel="icon" href="assets/favicon.svg" />
     <link rel="stylesheet" href="styles/index.css" />
-    <script src="https://pixijs.download/release/pixi.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -57,5 +56,9 @@
       </div>
     </div>
     <script src="scripts/index.js"></script>
+    <script type="module">
+      import StarBackground from "./scripts/starBackground.js";
+      new StarBackground();
+    </script>
   </body>
 </html>
