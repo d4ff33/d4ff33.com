@@ -986,23 +986,22 @@ body {
 #bounty-description {
   color: var(--primary);
   font-size: 14px;
-  margin-top: 20px;
-  line-height: 1;
-}
-
-#bounty-reward {
-  color: var(--primary);
-  font-size: 14px;
-  margin-top: 20px;
+  margin-top: 10px;
   line-height: 1;
 }
 
 #bounty-caution {
   text-align: center;
   color: var(--primary);
-  margin-top: 20px;
+  margin-top: 5px;
   font-size: 14px;
   animation: blink-2 0.9s both infinite;
+}
+
+#bounty-more-info {
+  text-align: center;
+  color: var(--secondary);
+  font-size: 14px;
 }
 
 @keyframes blink-2 {
@@ -1015,6 +1014,55 @@ body {
   100% {
     opacity: 1;
   }
+}
+
+.social-links {
+  display: flex;
+  gap: 15px;
+  margin-top: 5px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.social-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: rgba(94, 51, 255, 0.1);
+  border: 2px solid var(--secondary);
+  border-radius: 20px;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+}
+
+.social-button:hover {
+  background-color: rgba(94, 51, 255, 0.2);
+  transform: translateY(-2px);
+  box-shadow: var(--glow-secondary);
+}
+
+.social-button img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(41%) sepia(97%) saturate(7455%)
+    hue-rotate(251deg) brightness(100%) contrast(106%);
+  transition: all 0.2s ease-in-out;
+}
+
+.social-button:hover img {
+  filter: brightness(0) saturate(100%) invert(89%) sepia(11%) saturate(1259%)
+    hue-rotate(43deg) brightness(104%) contrast(98%);
+}
+
+.social-button span {
+  color: var(--secondary);
+  font-size: 14px;
+  transition: all 0.2s ease-in-out;
+}
+
+.social-button:hover span {
+  color: var(--primary);
 }
 
 .close-button {

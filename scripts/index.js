@@ -503,6 +503,65 @@ async function initBounties() {
   function showBountyDetails(bounty) {
     bountiesGrid.style.display = "none";
     bountiesHeader.style.display = "none";
+
+    // Create social media buttons HTML if social links exist
+    const socialLinksHTML = bounty.socialLinks
+      ? `
+      <div class="social-links">
+        ${
+          bounty.socialLinks.x
+            ? `
+          <a href="${bounty.socialLinks.x}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/x.svg" alt="X" />
+            <span>X</span>
+          </a>
+        `
+            : ""
+        }
+        ${
+          bounty.socialLinks.bluesky
+            ? `
+          <a href="${bounty.socialLinks.bluesky}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/bluesky.svg" alt="Bluesky" />
+            <span>Bluesky</span>
+          </a>
+        `
+            : ""
+        }
+        ${
+          bounty.socialLinks.instagram
+            ? `
+          <a href="${bounty.socialLinks.instagram}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/instagram.svg" alt="Instagram" />
+            <span>Instagram</span>
+          </a>
+        `
+            : ""
+        }
+        ${
+          bounty.socialLinks.tiktok
+            ? `
+          <a href="${bounty.socialLinks.tiktok}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/tiktok.svg" alt="TikTok" />
+            <span>TikTok</span>
+          </a>
+        `
+            : ""
+        }
+        ${
+          bounty.socialLinks.artstation
+            ? `
+          <a href="${bounty.socialLinks.artstation}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/artstation.svg" alt="ArtStation" />
+            <span>ArtStation</span>
+          </a>
+        `
+            : ""
+        }
+      </div>
+    `
+      : "";
+
     bountyDetails.innerHTML = `
       <div class="bounty-content">
         <button id="close-bounty" class="close-button">×</button>
@@ -525,9 +584,9 @@ async function initBounties() {
               <p><span>Languages:</span> <span class="bounty-languages">${bounty.languages}</span></p>
               <p><span>Last Seen:</span> <span class="bounty-last-seen">${bounty.lastSeen}</span></p>
               <p id="bounty-description">${bounty.description}</p>
-              <p id="bounty-reward">I'm offering a reward of up to ${bounty.reward} for information leading directly to the probing of ${bounty.name}.</p>
-              <h2 id="bounty-caution">${bounty.caution}
-</h2>
+              <h2 id="bounty-caution">${bounty.caution}</h2>
+              <h2 id="bounty-more-info">Find more information below:</h2>
+              ${socialLinksHTML}
             </div>
           </div>
         </div>
