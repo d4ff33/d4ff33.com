@@ -490,7 +490,7 @@ async function initBounties() {
         ${thumbnailContent}
         <div class="bounty-card-info">
           <h3>${bounty.name}</h3>
-          <div class="crosshair"><img src="../assets/crosshair.svg" alt="Crosshair"></div>
+          <div class="crosshair"><img src="../assets/Crosshair.svg" alt="Crosshair"></div>
         </div>
       `;
 
