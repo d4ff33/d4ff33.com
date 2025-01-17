@@ -41,6 +41,7 @@ function setActiveLink(activeLink) {
 const CACHE_PREFIX = "daffy_page_";
 const CACHE_DURATION = 1 * 60 * 60 * 1000;
 const GALLERY_CACHE_KEY = "daffy_gallery_data";
+const BOUNTIES_CACHE_KEY = "daffy_bounties_data";
 
 function getCacheKey(pageName) {
   return `${CACHE_PREFIX}${pageName}`;
@@ -96,8 +97,14 @@ async function loadContent(pageName) {
     const cachedContent = getCachedContent(pageName);
     if (cachedContent) {
       document.getElementById("content").innerHTML = cachedContent;
+
+      // Wait for DOM to be updated
+      await new Promise((resolve) => setTimeout(resolve, 0));
+
       if (pageName === "gallery") {
         await initGallery();
+      } else if (pageName === "bounties") {
+        await initBounties();
       }
       hideLoading();
       return;
@@ -114,8 +121,13 @@ async function loadContent(pageName) {
 
     document.getElementById("content").innerHTML = content;
 
+    // Wait for DOM to be updated
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
     if (pageName === "gallery") {
       await initGallery();
+    } else if (pageName === "bounties") {
+      await initBounties();
     }
   } catch (error) {
     console.error("Error loading content:", error);
@@ -148,7 +160,7 @@ galleryLink.addEventListener("click", (e) => {
 
 bountiesLink.addEventListener("click", (e) => {
   e.preventDefault();
-  navigateToPage("bounties", bountiesLink, "bounties");
+  navigateToPage("bounties", bountiesLink, "Bounties");
 });
 
 gamesLink.addEventListener("click", (e) => {
@@ -432,11 +444,131 @@ async function initGallery() {
   filterImages("all");
 }
 
+// Initialize bounties after the content is loaded
+
+async function initBounties() {
+  let bountyData;
+
+  try {
+    const cachedBountyData = localStorage.getItem(BOUNTIES_CACHE_KEY);
+    if (cachedBountyData) {
+      bountyData = JSON.parse(cachedBountyData).bounties;
+    } else {
+      const response = await fetch("scripts/data/bountyData.json");
+      if (!response.ok) throw new Error("Failed to load bounty data");
+      const data = await response.json();
+      bountyData = data.bounties;
+      localStorage.setItem(BOUNTIES_CACHE_KEY, JSON.stringify(data));
+    }
+  } catch (error) {
+    console.error("Error loading bounty data:", error);
+    document.getElementById("bounties-grid").innerHTML =
+      "<p>Failed to load bounties.</p>";
+    return;
+  }
+
+  const bountiesGrid = document.getElementById("bounties-grid");
+  const bountyDetails = document.getElementById("bounty-details");
+  const bountiesHeader = document.getElementById("bounties-header");
+
+  // Render bounty cards
+  function renderBounties() {
+    bountiesHeader.innerHTML =
+      "<h1>Daffy's Most Wanted List</h1><p id='bounties-header-text'>I'm looking for a some rare high value specimen to add to my collection...</p><p id='bounties-header-disclaimer'>*This is not a real bounty board. These individuals are my friends, please go follow their socials.*</p>";
+    bountiesGrid.innerHTML = "";
+    bountyData.forEach((bounty) => {
+      const bountyCard = document.createElement("div");
+      bountyCard.className = "bounty-card";
+
+      // Create thumbnail content
+      const thumbnailContent =
+        bounty.thumbnail === "blue-square"
+          ? `<div class="thumbnail-square"></div>`
+          : `<img src="${bounty.thumbnail}" alt="${bounty.name}">`;
+
+      bountyCard.innerHTML = `
+        ${thumbnailContent}
+        <div class="bounty-card-info">
+          <h3>${bounty.name}</h3>
+          <div class="crosshair"><img src="../assets/crosshair.svg" alt="Crosshair"></div>
+        </div>
+      `;
+
+      bountyCard.addEventListener("click", () => showBountyDetails(bounty));
+      bountiesGrid.appendChild(bountyCard);
+    });
+  }
+
+  // Show bounty details
+  function showBountyDetails(bounty) {
+    bountiesGrid.style.display = "none";
+    bountiesHeader.style.display = "none";
+    bountyDetails.innerHTML = `
+      <div class="bounty-content">
+        <button id="close-bounty" class="close-button">×</button>
+        <div class="bounty-details">
+          <div class="bounty-image-container">
+            <img class="bounty-image" src="${bounty.fullImage}" alt="${bounty.name}" />
+          </div>
+          <div class="bounty-info">
+            <h2 class="bounty-name">${bounty.name}</h2>
+            <h3 id="wanted">WANTED</h3>
+            <div class="bounty-stats">
+              <p><span>Aliases:</span> <span class="bounty-aliases">${bounty.aliases}</span></p>
+              <p><span>Date of Birth:</span> <span class="bounty-dateOfBirth">${bounty.dateOfBirth}</span></p>
+              <p><span>Hair:</span> <span class="bounty-hair">${bounty.hair}</span></p>
+              <p><span>Eyes:</span> <span class="bounty-eyes">${bounty.eyes}</span></p>
+              <p><span>Height:</span> <span class="bounty-height">${bounty.height}</span></p>
+              <p><span>Weight:</span> <span class="bounty-weight">${bounty.weight}</span></p>
+              <p><span>Species:</span> <span class="bounty-species">${bounty.species}</span></p>
+              <p><span>Nationality:</span> <span class="bounty-nationality">${bounty.nationality}</span></p>
+              <p><span>Languages:</span> <span class="bounty-languages">${bounty.languages}</span></p>
+              <p><span>Last Seen:</span> <span class="bounty-last-seen">${bounty.lastSeen}</span></p>
+              <p id="bounty-description">${bounty.description}</p>
+              <p id="bounty-reward">I'm offering a reward of up to ${bounty.reward} for information leading directly to the probing of ${bounty.name}.</p>
+              <h2 id="bounty-caution">${bounty.caution}
+</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    bountyDetails.style.display = "block";
+
+    // Add event listener to new close button
+    document
+      .getElementById("close-bounty")
+      .addEventListener("click", closeBountyDetails);
+  }
+
+  // Close bounty details
+  function closeBountyDetails() {
+    bountyDetails.style.display = "none";
+    bountiesHeader.style.display = "flex";
+    bountiesGrid.style.display = "grid";
+  }
+
+  // Close details with escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && bountyDetails.style.display === "block") {
+      closeBountyDetails();
+    }
+  });
+
+  // Initial render
+  renderBounties();
+}
+
 // Cache clearing function for development
 function clearPageCache() {
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key.startsWith(CACHE_PREFIX) || key === GALLERY_CACHE_KEY) {
+    if (
+      key.startsWith(CACHE_PREFIX) ||
+      key === GALLERY_CACHE_KEY ||
+      key === BOUNTIES_CACHE_KEY
+    ) {
       localStorage.removeItem(key);
     }
   }

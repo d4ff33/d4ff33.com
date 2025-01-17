@@ -1,6 +1,13 @@
 {
   "images": [
     {
+      "src": "../assets/art/Screenshot 2025-01-16 224750.png",
+      "date": "2025-01-16",
+      "displayDate": "1/16/2025",
+      "caption": "Some heads and robot...",
+      "category": "sketches"
+    },
+    {
       "src": "../assets/art/Screenshot 2025-01-14 233035.png",
       "date": "2025-01-14",
       "displayDate": "1/14/2025",

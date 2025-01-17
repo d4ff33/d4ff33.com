@@ -575,7 +575,7 @@ body {
   width: 100%;
   aspect-ratio: 1/1;
   margin: 0;
-  border-radius: 30px;
+  border-radius: 10px;
   position: relative;
   transition: transform 0.2s ease-in-out;
 }
@@ -593,7 +593,7 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 30px;
+  border-radius: 15px;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -776,6 +776,7 @@ body {
 #construction {
   background-color: rgb(255, 196, 0);
   width: 100%;
+  animation: fade-down 0.3s ease-out;
 }
 
 #construction h1 {
@@ -786,61 +787,280 @@ body {
 
 /* BOUNTIES PAGE */
 #bounties {
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  position: relative;
+}
+
+#bounties-header {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#bounties-header h1 {
+  color: var(--primary);
   text-align: center;
+}
+
+#bounties-header-text {
+  color: var(--secondary);
+  width: 75%;
+  font-size: 16px;
+  text-align: center;
+}
+
+#bounties-header-disclaimer {
+  color: var(--primary);
+  font-size: 10px;
+}
+
+#bounties-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  animation: fade-in 0.3s ease-out;
+}
+
+.bounty-card {
+  position: relative;
+  border: 4px solid #d4ff33;
+  border-radius: 15px 15px 0px 15px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: #5e33ff;
+  animation: fade-up 0.3s ease-out forwards;
+  opacity: 0;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.bounty-card:hover {
+  box-shadow: 0 0 10px #5e33ff;
+}
+
+.bounty-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: transform 0.2s ease-in-out;
+}
+
+.bounty-card:hover img {
+  transform: scale(1.1);
+}
+
+.bounty-card-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.bounty-card-info h3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #d4ff33;
+  font-size: 12px;
+  border-bottom: 4px solid #d4ff33;
+  border-right: 4px solid #d4ff33;
+  padding: 4px 8px;
+  border-radius: 0px 0px 20px 0px;
+  z-index: 1;
+}
+
+.crosshair {
+  position: absolute;
+  right: -4px;
+  bottom: -4px;
+  color: #d4ff33;
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #d4ff33;
+  padding: 5px;
+}
+.crosshair img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bounty-content {
+  border-radius: 30px;
+  position: relative;
+  padding: 20px;
+  height: 100%;
+  animation: fade-scale 0.3s ease-out;
+}
+
+#bounty-details {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  animation: fade-in 0.3s ease-out;
+  overflow-y: auto;
+}
+
+.bounty-details {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+}
+
+.bounty-image-container {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+}
+
+.bounty-image {
+  width: 100%;
+  border-radius: 15px;
+  border: 4px solid #d4ff33;
+}
+.bounty-image:hover {
+  cursor: url("../assets/Crosshair.svg"), pointer;
+}
+
+.bounty-info {
+  flex: 1;
+  padding: 20px;
+}
+
+.bounty-name {
+  color: var(--primary);
+  font-size: 2em;
+  text-align: center;
+}
+
+#wanted {
+  text-align: center;
+  color: var(--secondary);
+  margin-bottom: 20px;
+}
+
+.bounty-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bounty-stats p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 0.75;
+}
+
+.bounty-stats span:first-child {
+  color: var(--secondary);
+  width: 100px;
+  display: inline-block;
+}
+
+.bounty-stats span:last-child {
+  color: var(--primary);
+}
+
+#bounty-description {
+  color: var(--primary);
+  font-size: 14px;
+  margin-top: 20px;
+  line-height: 1;
+}
+
+#bounty-reward {
+  color: var(--primary);
+  font-size: 14px;
+  margin-top: 20px;
+  line-height: 1;
+}
+
+#bounty-caution {
+  text-align: center;
+  color: var(--primary);
+  margin-top: 20px;
+  font-size: 14px;
+  animation: blink-2 0.9s both infinite;
+}
+
+@keyframes blink-2 {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: 2px solid var(--secondary);
+  color: var(--secondary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-}
-#bounties p {
-  color: black;
+  font-size: 1.5em;
+  z-index: 2;
 }
 
-/* Page Entrance Animations */
-#home {
-  animation: slide-up 0.5s ease-out;
+.close-button:hover {
+  color: var(--primary);
+  box-shadow: 0 0 10px var(--secondary);
 }
-#gallery {
-  animation: fade-scale 0.5s ease-out;
-}
-#bounties {
-  animation: slide-down 0.5s ease-out;
-}
-#games {
-  animation: slide-down 0.5s ease-out;
-}
-@keyframes slide-up {
+
+@keyframes fade-in {
   from {
     opacity: 0;
-    transform: translateY(30px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
+
 @keyframes fade-scale {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
-@keyframes slide-down {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+
 /* Gallery Items Animation */
 .image {
   opacity: 0;

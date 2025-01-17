@@ -1,0 +1,39 @@
+{
+  "bounties": [
+    {
+      "name": "Levi Nathan",
+      "thumbnail": "../assets/bounties/levi-thumbnail.jpg",
+      "fullImage": "../assets/bounties/levi.jpg",
+      "aliases": "The Legendary Beast, Leviathan",
+      "dateOfBirth": "Unknown",
+      "hair": "N/A",
+      "eyes": "Gold",
+      "height": "4'5\"",
+      "weight": "Approximately 1000kg to 1500kg",
+      "species": "Sharkthing",
+      "nationality": "Atlantian",
+      "languages": "Fishspeak, English, Spanish",
+      "lastSeen": "The Pacific Ocean, Earth",
+      "reward": "433,000 DaffyCoins",
+      "description": "Levi is a creature of duality, embodying both the wild ferocity of the shark and the cunning of a pirate. He is a charismatic leader, commanding loyalty through sheer presence and a deep understanding of the people (and creatures) under his command. Ruthless when necessary, he values strength, resourcefulness, and cunning above all else. Despite his brutal reputation, he follows a personal code of honor. He protects the downtrodden and despises those who exploit the weak. His loyalty is unwavering to his crew, a band of misfits who sail aboard his ship, The Abyssal. When not plundering or hunting, Selachus is prone to brooding at the ship's bow, contemplating the ever-changing tides of his life.",
+      "caution": "⚠️ SHOULD BE CONSIDERED FAT AND EXTREMELY HUNGRY ⚠️"
+    },
+    {
+      "name": "SrJelly",
+      "thumbnail": "../assets/bounties/missing-thumbnail.jpg",
+      "fullImage": "",
+      "aliases": "",
+      "dateOfBirth": "",
+      "hair": "",
+      "eyes": "",
+      "height": "",
+      "weight": "",
+      "species": "",
+      "nationality": "",
+      "languages": "",
+      "lastSeen": "",
+      "reward": "",
+      "caution": ""
+    }
+  ]
+}
