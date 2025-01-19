@@ -210,7 +210,6 @@ document.addEventListener("DOMContentLoaded", () => {
   navigateToPage(initialPage, link, title);
 });
 
-// Modified gallery cache handling
 // Gallery
 async function initGallery() {
   const IMAGES_PER_PAGE = 18;
