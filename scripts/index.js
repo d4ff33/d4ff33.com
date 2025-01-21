@@ -397,7 +397,7 @@ async function initGallery() {
       return sortDirection === "desc" ? dateB - dateA : dateA - dateB;
     });
 
-    sortBtn.textContent = `Sort by ${
+    sortBtn.textContent = `${
       sortDirection === "desc" ? "Newest ↓" : "Oldest ↑"
     }`;
     renderImages(sortedImages);
@@ -464,6 +464,7 @@ async function initGallery() {
 // Initialize bounties after the content is loaded
 
 // Modified bounties cache handling
+// Modified bounties initialization
 async function initBounties() {
   let bountyData;
   try {
@@ -503,23 +504,26 @@ async function initBounties() {
 
   // Render bounty cards
   function renderBounties() {
-    bountiesHeader.innerHTML =
-      "<h1>Daffy's Most Wanted List</h1><p id='bounties-header-text'>I'm looking for a some rare high value specimen to add to my collection...</p><p id='bounties-header-disclaimer'>*This is not a real bounty board. These individuals are my friends, please go follow their socials.*</p>";
+    // Update header with scramble classes
+    bountiesHeader.innerHTML = ``;
+
+    // Clear the grid
     bountiesGrid.innerHTML = "";
+
+    // Render bounty cards
     bountyData.forEach((bounty) => {
       const bountyCard = document.createElement("div");
       bountyCard.className = "bounty-card";
 
-      // Create thumbnail content
       const thumbnailContent =
         bounty.thumbnail === "blue-square"
-          ? `<div class="thumbnail-square"></div>`
+          ? '<div class="thumbnail-square"></div>'
           : `<img src="${bounty.thumbnail}" alt="${bounty.name}">`;
 
       bountyCard.innerHTML = `
         ${thumbnailContent}
         <div class="bounty-card-info">
-          <h3>${bounty.name}</h3>
+          <h3 class="scramble">${bounty.name}</h3>
           <div class="crosshair"><img src="../assets/Crosshair.svg" alt="Crosshair"></div>
         </div>
       `;
@@ -527,69 +531,52 @@ async function initBounties() {
       bountyCard.addEventListener("click", () => showBountyDetails(bounty));
       bountiesGrid.appendChild(bountyCard);
     });
+
+    // Initialize scramble effects after content is rendered
+    requestAnimationFrame(() => {
+      initScrambleEffectsForContainer(bountiesHeader);
+      initScrambleEffectsForContainer(bountiesGrid);
+    });
   }
 
-  // Show bounty details
+  // Show bounty details with animation
   function showBountyDetails(bounty) {
     bountiesGrid.style.display = "none";
     bountiesHeader.style.display = "none";
 
-    // Create social media buttons HTML if social links exist
     const socialLinksHTML = bounty.socialLinks
-      ? `
-      <div class="social-links">
-        ${
-          bounty.socialLinks.x
-            ? `
-          <a href="${bounty.socialLinks.x}" target="_blank" rel="noopener noreferrer" class="social-button">
-            <img src="../assets/x.svg" alt="X" />
-            <span>X</span>
-          </a>
-        `
-            : ""
-        }
-        ${
-          bounty.socialLinks.bluesky
-            ? `
-          <a href="${bounty.socialLinks.bluesky}" target="_blank" rel="noopener noreferrer" class="social-button">
-            <img src="../assets/bluesky.svg" alt="Bluesky" />
-            <span>Bluesky</span>
-          </a>
-        `
-            : ""
-        }
-        ${
-          bounty.socialLinks.instagram
-            ? `
-          <a href="${bounty.socialLinks.instagram}" target="_blank" rel="noopener noreferrer" class="social-button">
-            <img src="../assets/instagram.svg" alt="Instagram" />
-            <span>Instagram</span>
-          </a>
-        `
-            : ""
-        }
-        ${
-          bounty.socialLinks.tiktok
-            ? `
-          <a href="${bounty.socialLinks.tiktok}" target="_blank" rel="noopener noreferrer" class="social-button">
-            <img src="../assets/tiktok.svg" alt="TikTok" />
-            <span>TikTok</span>
-          </a>
-        `
-            : ""
-        }
-        ${
-          bounty.socialLinks.artstation
-            ? `
-          <a href="${bounty.socialLinks.artstation}" target="_blank" rel="noopener noreferrer" class="social-button">
-            <img src="../assets/artstation.svg" alt="ArtStation" />
-            <span>ArtStation</span>
-          </a>
-        `
-            : ""
-        }
-      </div>
-    `
+      ? `<div class="social-links">
+          ${
+            bounty.socialLinks.x
+              ? `<a href="${bounty.socialLinks.x}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/x.svg" alt="X" /><span>X</span></a>`
+              : ""
+          }
+          ${
+            bounty.socialLinks.bluesky
+              ? `<a href="${bounty.socialLinks.bluesky}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/bluesky.svg" alt="Bluesky" /><span>Bluesky</span></a>`
+              : ""
+          }
+          ${
+            bounty.socialLinks.instagram
+              ? `<a href="${bounty.socialLinks.instagram}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/instagram.svg" alt="Instagram" /><span>Instagram</span></a>`
+              : ""
+          }
+          ${
+            bounty.socialLinks.tiktok
+              ? `<a href="${bounty.socialLinks.tiktok}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/tiktok.svg" alt="TikTok" /><span>TikTok</span></a>`
+              : ""
+          }
+          ${
+            bounty.socialLinks.artstation
+              ? `<a href="${bounty.socialLinks.artstation}" target="_blank" rel="noopener noreferrer" class="social-button">
+            <img src="../assets/artstation.svg" alt="ArtStation" /><span>ArtStation</span></a>`
+              : ""
+          }
+        </div>`
       : "";
 
     bountyDetails.innerHTML = `
@@ -600,21 +587,21 @@ async function initBounties() {
             <img class="bounty-image" src="${bounty.fullImage}" alt="${bounty.name}" />
           </div>
           <div class="bounty-info">
-            <h2 class="bounty-name">${bounty.name}</h2>
-            <h3 id="wanted">WANTED</h3>
+            <h2 class="bounty-name scramble">${bounty.name}</h2>
+            <h3 id="wanted" class="scramble">WANTED</h3>
             <div class="bounty-stats">
-              <p><span>Aliases:</span> <span class="bounty-aliases">${bounty.aliases}</span></p>
-              <p><span>Date of Birth:</span> <span class="bounty-dateOfBirth">${bounty.dateOfBirth}</span></p>
-              <p><span>Hair:</span> <span class="bounty-hair">${bounty.hair}</span></p>
-              <p><span>Eyes:</span> <span class="bounty-eyes">${bounty.eyes}</span></p>
-              <p><span>Height:</span> <span class="bounty-height">${bounty.height}</span></p>
-              <p><span>Weight:</span> <span class="bounty-weight">${bounty.weight}</span></p>
-              <p><span>Species:</span> <span class="bounty-species">${bounty.species}</span></p>
-              <p><span>Nationality:</span> <span class="bounty-nationality">${bounty.nationality}</span></p>
-              <p><span>Languages:</span> <span class="bounty-languages">${bounty.languages}</span></p>
-              <p><span>Last Seen:</span> <span class="bounty-last-seen">${bounty.lastSeen}</span></p>
-              <p id="bounty-description">${bounty.description}</p>
-              <h2 id="bounty-caution">${bounty.caution}</h2>
+              <p><span class="scramble">Aliases:</span> <span class="bounty-aliases scramble">${bounty.aliases}</span></p>
+              <p><span class="scramble">Date of Birth:</span> <span class="bounty-dateOfBirth scramble">${bounty.dateOfBirth}</span></p>
+              <p><span class="scramble">Hair:</span> <span class="bounty-hair scramble">${bounty.hair}</span></p>
+              <p><span class="scramble">Eyes:</span> <span class="bounty-eyes scramble">${bounty.eyes}</span></p>
+              <p><span class="scramble">Height:</span> <span class="bounty-height scramble">${bounty.height}</span></p>
+              <p><span class="scramble">Weight:</span> <span class="bounty-weight scramble">${bounty.weight}</span></p>
+              <p><span class="scramble">Species:</span> <span class="bounty-species scramble">${bounty.species}</span></p>
+              <p><span class="scramble">Nationality:</span> <span class="bounty-nationality scramble">${bounty.nationality}</span></p>
+              <p><span class="scramble">Languages:</span> <span class="bounty-languages scramble">${bounty.languages}</span></p>
+              <p><span class="scramble">Last Seen:</span> <span class="bounty-last-seen scramble">${bounty.lastSeen}</span></p>
+              <p id="bounty-description" class="scramblefast">${bounty.description}</p>
+              <h2 id="bounty-caution" class="scramblefast">${bounty.caution}</h2>
               <h2 id="bounty-more-info">Find more information below:</h2>
               ${socialLinksHTML}
             </div>
@@ -625,17 +612,27 @@ async function initBounties() {
 
     bountyDetails.style.display = "block";
 
-    // Add event listener to new close button
+    // Initialize scramble effects for the details
+    requestAnimationFrame(() => {
+      initScrambleEffectsForContainer(bountyDetails);
+    });
+
+    // Add event listener to close button
     document
       .getElementById("close-bounty")
       .addEventListener("click", closeBountyDetails);
   }
 
-  // Close bounty details
   function closeBountyDetails() {
     bountyDetails.style.display = "none";
     bountiesHeader.style.display = "flex";
     bountiesGrid.style.display = "grid";
+
+    // Reinitialize scramble effects for the grid and header
+    requestAnimationFrame(() => {
+      initScrambleEffectsForContainer(bountiesHeader);
+      initScrambleEffectsForContainer(bountiesGrid);
+    });
   }
 
   // Close details with escape key
