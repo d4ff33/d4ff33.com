@@ -39,7 +39,7 @@ function setActiveLink(activeLink) {
 
 // Cache Management with Version Control
 const CACHE_PREFIX = "daffy_page_";
-const CACHE_VERSION = "0.7"; // Increment this when deploying new content
+const CACHE_VERSION = "0.8"; // Increment this when deploying new content
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 const GALLERY_CACHE_KEY = "daffy_gallery_data";
 const BOUNTIES_CACHE_KEY = "daffy_bounties_data";
