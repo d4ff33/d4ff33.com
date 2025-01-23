@@ -39,7 +39,7 @@ function setActiveLink(activeLink) {
 
 // Cache Management with Version Control
 const CACHE_PREFIX = "daffy_page_";
-const CACHE_VERSION = "0.6"; // Increment this when deploying new content
+const CACHE_VERSION = "0.7"; // Increment this when deploying new content
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 const GALLERY_CACHE_KEY = "daffy_gallery_data";
 const BOUNTIES_CACHE_KEY = "daffy_bounties_data";
@@ -504,7 +504,6 @@ async function initBounties() {
 
   // Render bounty cards
   function renderBounties() {
-    // Update header with scramble classes
     bountiesHeader.innerHTML = ``;
 
     // Clear the grid
@@ -523,19 +522,13 @@ async function initBounties() {
       bountyCard.innerHTML = `
         ${thumbnailContent}
         <div class="bounty-card-info">
-          <h3 class="scramble">${bounty.name}</h3>
+          <h3>${bounty.name}</h3>
           <div class="crosshair"><img src="../assets/Crosshair.svg" alt="Crosshair"></div>
         </div>
       `;
 
       bountyCard.addEventListener("click", () => showBountyDetails(bounty));
       bountiesGrid.appendChild(bountyCard);
-    });
-
-    // Initialize scramble effects after content is rendered
-    requestAnimationFrame(() => {
-      initScrambleEffectsForContainer(bountiesHeader);
-      initScrambleEffectsForContainer(bountiesGrid);
     });
   }
 
@@ -587,21 +580,21 @@ async function initBounties() {
             <img class="bounty-image" src="${bounty.fullImage}" alt="${bounty.name}" />
           </div>
           <div class="bounty-info">
-            <h2 class="bounty-name scramble">${bounty.name}</h2>
-            <h3 id="wanted" class="scramble">WANTED</h3>
+            <h2 class="bounty-name">${bounty.name}</h2>
+            <h3 id="wanted">WANTED</h3>
             <div class="bounty-stats">
-              <p><span class="scramble">Aliases:</span> <span class="bounty-aliases scramble">${bounty.aliases}</span></p>
-              <p><span class="scramble">Date of Birth:</span> <span class="bounty-dateOfBirth scramble">${bounty.dateOfBirth}</span></p>
-              <p><span class="scramble">Hair:</span> <span class="bounty-hair scramble">${bounty.hair}</span></p>
-              <p><span class="scramble">Eyes:</span> <span class="bounty-eyes scramble">${bounty.eyes}</span></p>
-              <p><span class="scramble">Height:</span> <span class="bounty-height scramble">${bounty.height}</span></p>
-              <p><span class="scramble">Weight:</span> <span class="bounty-weight scramble">${bounty.weight}</span></p>
-              <p><span class="scramble">Species:</span> <span class="bounty-species scramble">${bounty.species}</span></p>
-              <p><span class="scramble">Nationality:</span> <span class="bounty-nationality scramble">${bounty.nationality}</span></p>
-              <p><span class="scramble">Languages:</span> <span class="bounty-languages scramble">${bounty.languages}</span></p>
-              <p><span class="scramble">Last Seen:</span> <span class="bounty-last-seen scramble">${bounty.lastSeen}</span></p>
-              <p id="bounty-description" class="scramblefast">${bounty.description}</p>
-              <h2 id="bounty-caution" class="scramblefast">${bounty.caution}</h2>
+              <p><span class="">Aliases:</span> <span class="bounty-aliases scramble">${bounty.aliases}</span></p>
+              <p><span class="">Date of Birth:</span> <span class="bounty-dateOfBirth scramble">${bounty.dateOfBirth}</span></p>
+              <p><span class="">Hair:</span> <span class="bounty-hair scramble">${bounty.hair}</span></p>
+              <p><span class="">Eyes:</span> <span class="bounty-eyes scramble">${bounty.eyes}</span></p>
+              <p><span class="">Height:</span> <span class="bounty-height scramble">${bounty.height}</span></p>
+              <p><span class="">Weight:</span> <span class="bounty-weight scramble">${bounty.weight}</span></p>
+              <p><span class="">Species:</span> <span class="bounty-species scramble">${bounty.species}</span></p>
+              <p><span class="">Nationality:</span> <span class="bounty-nationality scramble">${bounty.nationality}</span></p>
+              <p><span class="">Languages:</span> <span class="bounty-languages scramble">${bounty.languages}</span></p>
+              <p><span class="">Last Seen:</span> <span class="bounty-last-seen scramble">${bounty.lastSeen}</span></p>
+              <p id="bounty-description" class="">${bounty.description}</p>
+              <h2 id="bounty-caution" class="">${bounty.caution}</h2>
               <h2 id="bounty-more-info">Find more information below:</h2>
               ${socialLinksHTML}
             </div>
@@ -627,12 +620,6 @@ async function initBounties() {
     bountyDetails.style.display = "none";
     bountiesHeader.style.display = "flex";
     bountiesGrid.style.display = "grid";
-
-    // Reinitialize scramble effects for the grid and header
-    requestAnimationFrame(() => {
-      initScrambleEffectsForContainer(bountiesHeader);
-      initScrambleEffectsForContainer(bountiesGrid);
-    });
   }
 
   // Close details with escape key
