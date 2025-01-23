@@ -39,7 +39,7 @@ function setActiveLink(activeLink) {
 
 // Cache Management with Version Control
 const CACHE_PREFIX = "daffy_page_";
-const CACHE_VERSION = "0.8"; // Increment this when deploying new content
+const CACHE_VERSION = "0.9"; // Increment this when deploying new content
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 const GALLERY_CACHE_KEY = "daffy_gallery_data";
 const BOUNTIES_CACHE_KEY = "daffy_bounties_data";
@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Gallery
 async function initGallery() {
-  const IMAGES_PER_PAGE = 18;
+  const IMAGES_PER_PAGE = 20;
   let imageData;
   let currentPage = 1; // Moved to top level of initGallery
   let currentImageIndex = 0;
