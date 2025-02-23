@@ -52,33 +52,42 @@ float star(vec2 uv, float size) {
     return brightness;
 }
 
+// Enhanced pixelation function
+vec2 pixelate(vec2 uv, float pixels) {
+    vec2 pixelSize = resolution.xy / pixels;
+    return floor(uv / pixelSize) * pixelSize + pixelSize * 0.5;
+}
+
 void main() {
-    vec2 uv = (gl_FragCoord.xy - 0.5 * resolution.xy) / resolution.y;
+    // Apply much stronger pixelation
+    float pixelCount = 768.0; // Dramatically reduced for more visible pixels
+    vec2 pixelatedUV = pixelate(gl_FragCoord.xy, pixelCount);
+    vec2 pixelUV = (pixelatedUV - 0.5 * resolution.xy) / resolution.y;
+    
     vec3 color = vec3(0.0);
     
     // Spiral galaxy parameters
     float rotation = time * 0.2;
     float armCount = 3.0;
     
-    // Create main spiral arms
-    float mainSpiral = spiral(uv, armCount, rotation);
-    vec3 spiralColor = rainbow(length(uv) - time * 0.1);
+    // Create main spiral arms with pixelated coordinates
+    float mainSpiral = spiral(pixelUV, armCount, rotation);
+    vec3 spiralColor = rainbow(length(pixelUV) - time * 0.1);
     color += mainSpiral * spiralColor;
     
-    // Add stars
-    for(float i = 0.0; i < 3.0; i++) {
-        vec2 grid = fract(uv * (8.0 + i * 15.0)) - 0.5;
-        vec2 id = floor(uv * (8.0 + i * 15.0));
+    // Reduced number of stars for clearer pixelation
+    for(float i = 0.0; i < 2.0; i++) {
+        vec2 grid = fract(pixelUV * (4.0 + i * 8.0)) - 0.5;
+        vec2 id = floor(pixelUV * (4.0 + i * 8.0));
         
         vec2 r = random2(id);
         float size = fract(r.x * 345.32);
         
-        if(size > 0.97) {
+        if(size > 0.95) {
             float twinkle = sin(time * (1.0 + r.y * 2.0)) * 0.5 + 0.5;
             float starBrightness = star(grid, 1.0 + i * 0.3) * size * twinkle;
             
-            // Add spinning motion to stars
-            vec2 spinUV = uv;
+            vec2 spinUV = pixelUV;
             float angle = time * 0.5;
             float dist = length(spinUV);
             float spin = atan(spinUV.y, spinUV.x) + angle * (1.0 - dist);
@@ -89,13 +98,17 @@ void main() {
         }
     }
     
-    // Add center glow
-    float centerGlow = star(uv, 0.5);
+    // Add pixelated center glow
+    float centerGlow = star(pixelUV, 0.5);
     color += centerGlow * rainbow(time * 0.1) * 2.0;
     
-    // Color adjustments
-    color = pow(color, vec3(0.8));
-    color *= 1.2; // Brightness boost
+    // Much stronger color quantization
+    float colorLevels = 12.0; // Reduced for more visible color steps
+    color = floor(color * colorLevels) / colorLevels;
+    
+    // Enhance contrast
+    color = pow(color, vec3(1.2));
+    color *= 1.3; // Increased brightness
     
     gl_FragColor = vec4(color, 1.0);
 }
@@ -111,10 +124,15 @@ class GalaxySpiral {
     this.canvas.style.height = "100%";
     this.canvas.style.zIndex = "-1";
 
+    // Force nearest-neighbor interpolation
+    this.canvas.style.imageRendering = "pixelated";
+    this.canvas.style.imageRendering = "-moz-crisp-edges";
+    this.canvas.style.imageRendering = "crisp-edges";
+
     document.body.insertBefore(this.canvas, document.body.firstChild);
 
     this.gl = this.canvas.getContext("webgl", {
-      antialias: true,
+      antialias: false, // Disabled antialiasing for sharper pixels
       alpha: false,
     });
 
@@ -162,6 +180,18 @@ class GalaxySpiral {
     this.timeLocation = this.gl.getUniformLocation(this.program, "time");
 
     this.startTime = Date.now();
+
+    // Force texture filtering to nearest neighbor
+    this.gl.texParameteri(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_MIN_FILTER,
+      this.gl.NEAREST
+    );
+    this.gl.texParameteri(
+      this.gl.TEXTURE_2D,
+      this.gl.TEXTURE_MAG_FILTER,
+      this.gl.NEAREST
+    );
 
     this.resize();
     window.addEventListener("resize", () => this.resize());

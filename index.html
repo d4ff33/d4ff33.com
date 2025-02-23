@@ -22,16 +22,45 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Goldman:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <div id="root">
-      <h1 style="text-align: center">Daffy will return...</h1>
+      <div id="home">
+        <div id="top-half">
+          <div id="left-top">
+            <div id="hero" class="window-thin"></div>
+            <div id="fake-ad" class="window-thin">
+              <a href="drawpile://pub.drawpile.net/PP"
+                ><img src="assets/ad.gif" alt=""
+              /></a>
+            </div>
+          </div>
+          <div id="about" class="window">
+            <div class="title">About</div>
+          </div>
+        </div>
+        <div id="bottom-half">
+          <div id="projects" class="window">
+            <div class="title">Projects</div>
+          </div>
+          <div id="right-bottom">
+            <div id="gallery" class="window">
+              <div class="title">Gallery</div>
+            </div>
+            <div id="links" class="window">
+              <div class="title">Links</div>
+            </div>
+          </div>
+        </div>
+        <div id="footer" class="window-thin">
+          <p>SITE UNDER CONSTRUCTION - PLEASE COME BACK ANOTHER TIME</p>
+        </div>
+      </div>
     </div>
     <script src="scripts/index.js"></script>
-    <script src="scripts/scramble.js"></script>
     <script type="module">
       import StarBackground from "./scripts/starBackground.js";
       new StarBackground();
